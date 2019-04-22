@@ -1,0 +1,7 @@
+
+State Machine - |processor|Step
+Name Step.11 Step.10 Step.01 Step.00 
+Step.00 0 0 0 0 
+Step.01 0 0 1 1 
+Step.10 0 1 0 1 
+Step.11 1 0 0 1 
