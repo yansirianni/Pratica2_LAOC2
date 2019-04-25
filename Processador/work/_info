@@ -1,0 +1,236 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\Aluno.NTIC-LAB-XYX\Desktop\Laoc-1\Questao 2\processador
+valu
+Z1 IZU[B]k084A[mcn@iHg:Oj2
+Z2 VoSF5G>ic<fCB_0PJVSG5X2
+Z3 dC:\Users\heito\Desktop\Laoc-1\Questao 1\processador
+Z4 w1541802102
+Z5 8C:/Users/heito/Desktop/Laoc-1/Questao 1/processador/processor.v
+Z6 FC:/Users/heito/Desktop/Laoc-1/Questao 1/processador/processor.v
+Z7 L0 471
+Z8 OV;L;10.1d;51
+r1
+31
+Z9 !s108 1541803232.479000
+Z10 !s107 C:/Users/heito/Desktop/Laoc-1/Questao 1/processador/processor.v|
+Z11 !s90 -reportprogress|300|-work|work|C:/Users/heito/Desktop/Laoc-1/Questao 1/processador/processor.v|
+Z12 o-work work -O0
+!i10b 1
+Z13 !s100 CSRJb:cl<5Z:VRQGA::JF3
+!s85 0
+!s101 -O0
+vdecoder
+Z14 IPJhDH`OO6kfLgO33J<AkI1
+Z15 VdKE1md<gJULDQ:716mZ]]1
+R3
+R4
+R5
+R6
+Z16 L0 382
+R8
+r1
+31
+R9
+R10
+R11
+R12
+!i10b 1
+Z17 !s100 FLRR:lDokz[`gl>A><M?d2
+!s85 0
+!s101 -O0
+vmemory_main
+Z18 I]SDdo2FZ8:RAiOJ<ZF=8N1
+Z19 V^>1NJcL[VHL:MJ9;Vm:6O2
+R3
+R4
+Z20 8C:/Users/heito/Desktop/Laoc-1/Questao 1/processador/memory_main.v
+Z21 FC:/Users/heito/Desktop/Laoc-1/Questao 1/processador/memory_main.v
+L0 1
+R8
+r1
+31
+R12
+Z22 !s100 8zRQSbcZ>lz^<PU3kOiNF1
+Z23 !s108 1541803232.273000
+Z24 !s107 C:/Users/heito/Desktop/Laoc-1/Questao 1/processador/memory_main.v|
+Z25 !s90 -reportprogress|300|-work|work|C:/Users/heito/Desktop/Laoc-1/Questao 1/processador/memory_main.v|
+!i10b 1
+!s85 0
+!s101 -O0
+vmux5_1_20bits
+Z26 ICd<2TJkA@>h;Me74?1dD31
+Z27 VkRe2=g?c2jWehU04BjmL:0
+R3
+R4
+R5
+R6
+Z28 L0 389
+R8
+r1
+31
+R9
+R10
+R11
+R12
+!i10b 1
+Z29 !s100 ES6af90ki=YMfY9kUc`Zh0
+!s85 0
+!s101 -O0
+vPC_reg15
+Z30 IVUg^oR7S3kXZ[nQ_P<LBZ2
+Z31 Vk05FILA2B6:``?H87EcMh2
+R3
+R4
+R5
+R6
+Z32 L0 317
+R8
+r1
+31
+R9
+R10
+R11
+R12
+Z33 n@p@c_reg15
+!i10b 1
+Z34 !s100 hUOcUCi6e>6z[aoY3eRfF0
+!s85 0
+!s101 -O0
+vprocessor
+Z35 IeEW28C_jhiAk:>oK1WcS22
+Z36 VO7:4B;D^234VlzNK<:h>V3
+R3
+R4
+R5
+R6
+L0 2
+R8
+r1
+31
+R9
+R10
+R11
+R12
+!i10b 1
+Z37 !s100 M]ffM=oPE1NPUieo7bk=[0
+!s85 0
+!s101 -O0
+vprogramCounter
+Z38 Ik4?kbgFUmE99YIWkP2PHQ0
+Z39 VVIai4YzmH:dP=jcDoNHO;2
+R3
+R4
+R5
+R6
+Z40 L0 335
+R8
+r1
+31
+R9
+R10
+R11
+R12
+Z41 nprogram@counter
+!i10b 1
+Z42 !s100 UJJ6YS6NM8;nI>aZN_gU]3
+!s85 0
+!s101 -O0
+vregister16bits
+Z43 Id@3?RV5ll0R6gCO2z15ZR3
+Z44 VDGY[j?5kH4P098z9Y]6iV2
+R3
+R4
+R5
+R6
+Z45 L0 409
+R8
+r1
+31
+R9
+R10
+R11
+R12
+!i10b 1
+Z46 !s100 4n<1kKUi[jHV8Qo?MSe792
+!s85 0
+!s101 -O0
+vregister20bits
+Z47 IY`5dS<ZIKDU`V8jUDc8@k1
+Z48 V_`e^cIACiR7fJH6PRYSjZ0
+R3
+R4
+R5
+R6
+Z49 L0 429
+R8
+r1
+31
+R9
+R10
+R11
+R12
+!i10b 1
+Z50 !s100 JEOo0_PJP5@FWL5E2<8[L2
+!s85 0
+!s101 -O0
+vregister20bits_i
+Z51 I8NWMB8ST]2ak197kzlP]n2
+Z52 V09z;Kn<H<0l0a=OD3PdDa0
+R3
+R4
+R5
+R6
+Z53 L0 451
+R8
+r1
+31
+R9
+R10
+R11
+R12
+!i10b 1
+Z54 !s100 3IlkRR2]ZN?aB7`H4;XD81
+!s85 0
+!s101 -O0
+vregisterFile
+Z55 IlnAC_aQU8@1DNPDP<o:0X1
+Z56 V_Z0OaaLUJN^1D_EgMWcO02
+R3
+R4
+R5
+R6
+Z57 L0 346
+R8
+r1
+31
+R9
+R10
+R11
+R12
+Z58 nregister@file
+!i10b 1
+Z59 !s100 QI8`1gg`:KloEDPIQzXVl0
+!s85 0
+!s101 -O0
+vsystem
+!i10b 1
+!s100 U<;;2eP1kf@eXC_MEdJmG3
+IY@h:cO8H_[VVddTbMfaHF0
+Z60 VQ_:5oKKdW0fLJEb2ZPDf50
+R3
+R4
+8C:/Users/heito/Desktop/Laoc-1/Questao 1/processador/system.v
+FC:/Users/heito/Desktop/Laoc-1/Questao 1/processador/system.v
+L0 1
+R8
+r1
+!s85 0
+31
+!s108 1541803233.399000
+!s107 C:/Users/heito/Desktop/Laoc-1/Questao 1/processador/system.v|
+!s90 -reportprogress|300|-work|work|C:/Users/heito/Desktop/Laoc-1/Questao 1/processador/system.v|
+!s101 -O0
+R12

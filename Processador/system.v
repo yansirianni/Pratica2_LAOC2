@@ -1,9 +1,9 @@
 module system (Clock, Reset, dout, q);
 
 input Clock, Reset;
-output [15:0] dout, q;
+output [19:0] dout, q;
 
-wire [15:0] addr;
+wire [19:0] addr;
 
 wire w;
 
@@ -13,4 +13,3 @@ memory_main mem1 (addr[4:0], dout, w, Clock, q);
 
 
 endmodule
-
