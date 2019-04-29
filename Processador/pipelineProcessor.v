@@ -93,7 +93,27 @@ begin
 end // always @(posedge Clock)
 
 
+always@(clock)
+begin
 
+//estágio IF
+instructionFetch IF();
+
+//Estágio ID
+instructionDecode ID();
+
+//estágio EX
+instructionExecute EX();
+
+//Estágio MEM
+memoryAccess MEM();
+
+
+//Estágio WB
+writeBack WB();
+
+
+end
 
 //ReadAddressRF1 = instruction[11:8]; // selecionado pelo controlMux <= 2'b01;
 //ReadAddressRF2 = instruction[7:4]; // selecionado pelo controlMux <= 2'b00;
