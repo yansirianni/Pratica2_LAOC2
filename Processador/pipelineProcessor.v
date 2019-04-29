@@ -93,24 +93,38 @@ begin
 end // always @(posedge Clock)
 
 
-always@(clock)
+always@(pc1)
 begin
 
 //estágio IF
-instructionFetch IF();
+/*
+    writeEnableRegInstruction <= 1'b1;
+    writeEnableRegisterFile <= 1'b0;
+    incr_pc  <= 1'b1;
+    ReadAddressRF1 <= instruction[11:8];
+    ReadAddressRF2 <= instruction[7:4];
+    writeEnableRegAddress <= 1'b0;
+    controlMux <= 3'b010;    
+*/
+
+instructionFetch IF(); //Busca a instrução na memória
 
 //Estágio ID
-instructionDecode ID();
+register_IF_ID IF_ID(instruction[19:16]);
+instructionDecode ID(); //Decodifica a instrução
 
 //estágio EX
-instructionExecute EX();
+register_ID_EX ID_EX(instruction[19:16]);
+instructionExecute EX(); //Executa operação ou calcula um endereço
 
 //Estágio MEM
-memoryAccess MEM();
+register_EX_MEM EX_MEM(instruction[19:16]);
+memoryAccess MEM(); //Acessa um operando na memória de dados
 
 
 //Estágio WB
-writeBack WB();
+register_MEM_WB MEM_WB(instruction[19:16]);
+writeBack WB(); //Escreve o resultado em um registrador
 
 
 end
@@ -121,19 +135,7 @@ end
 
 always @(Step, instruction)
 begin
-case(Step)
-  2'b00:
-  begin
-    writeEnableRegInstruction <= 1'b1;
-    writeEnableRegisterFile <= 1'b0;
-    incr_pc  <= 1'b1;
-    ReadAddressRF1 <= instruction[11:8];
-    ReadAddressRF2 <= instruction[7:4];
-    writeEnableRegAddress <= 1'b0;
-    controlMux <= 3'b010;
-    W <= 1'b0;
-
-  end // Step 00
+case(Step)  
 
   2'b01: // PASSO 1 ///////////////////////////////////////
   begin
