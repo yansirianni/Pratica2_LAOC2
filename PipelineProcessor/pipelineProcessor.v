@@ -7,22 +7,27 @@ output [19:0] Dout, Daddress;
 
 output reg W;
 
-instructionFetch IF(); //Estágio 1
+//Estágio 1
+instructionFetch IF(); //Carrega instruções da memória 
 
 register_IF_ID IF_ID(); 
 
-instructionDecode ID(); //Estágio 2
+//Estágio 2
+instructionDecode ID(); //Decodifica a instrução e lê os registradores 
 
 register_ID_EX ID_EX();
 
-instructionExecute EX(); //Estágio 3
+//Estágio 3
+instructionExecute EX(); //Executa o cálculo se necessário
 
 register_EX_MEM EX_MEM();
 
-memoryAccess MEM(); //Estágio 4
+//Estágio 4
+memoryAccess MEM(); //Leitura ou escrita na memória 
 
 register_MEM_WB MEM_WB();
 
-writeBack WB(); //Estágio 5
+//Estágio 5
+writeBack WB(); //Escreve o resultado no banco de registradores
 
 endmodule
