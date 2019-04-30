@@ -92,9 +92,6 @@ begin
     endcase // Step
 end // always @(posedge Clock)
 
-
-
-
 //ReadAddressRF1 = instruction[11:8]; // selecionado pelo controlMux <= 2'b01;
 //ReadAddressRF2 = instruction[7:4]; // selecionado pelo controlMux <= 2'b00;
 
