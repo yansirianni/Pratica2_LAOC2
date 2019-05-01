@@ -1,10 +1,11 @@
-module register_IF_ID(
-	input clock, reset;
+module register_IF_ID(clock,reset,opcode,instruction,data_out,opcode_out);
+
+  input clock, reset;
 	input [3:0] opcode; //esta redundante de proposito para caso mude a estrutura do instruction
 	input [19:0] instruction;
-	output [19:0] data_out;
-	output [3:0] opcode_out; //propagacao do opcode para ser usado pelo proximo bloco
-);
+	
+	output reg [19:0] data_out;
+	output reg [3:0] opcode_out; //propagacao do opcode para ser usado pelo proximo bloco
 
 	always @(posedge clock)
 	begin
