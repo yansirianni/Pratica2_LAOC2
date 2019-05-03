@@ -27,7 +27,6 @@ else
 		Q <= Q + 1'b1;
 endmodule
 
-/*
 module instructionFetch_testbench;
 	reg clock,reset;
 	reg [15:0] jumpAddress;
@@ -39,10 +38,12 @@ module instructionFetch_testbench;
 	 PC_reg15 PC_test((reset ? 16'b0 : jumpAddress), (reset | jumpEnable), 1, clock, Daddress);
 	 
 	initial begin
-		 clock = 0; reset = 0; jumpEnable = 0;
+		clock = 0; reset = 0; jumpEnable = 0; jumpAddress = 0;
 		forever begin
 		 #50 clock = ~clock;
 		end 
+	end 
+	initial begin
 		#(timeDelay) reset = 1;
 		#(timeDelay) reset = 0;
 		#(timeDelay) jumpEnable = 1; jumpAddress = 16'b0000111100011111;
@@ -50,7 +51,7 @@ module instructionFetch_testbench;
 	end 
 
 endmodule // instructionFetch_testbench
-*/
+
 
 /*
 module programCounter (regPc,Data,RegWrite,incr_pc, clock);
