@@ -28,17 +28,30 @@ else
 endmodule
 
 /*
-module instructionFetch_testbench(
+module instructionFetch_testbench;
 	reg clock,reset;
 	reg [15:0] jumpAddress;
 	reg jumpEnable;
-	reg [15:0] Daddress;
-);
-
-	parameter timeps = 50;
+	wire [15:0] Daddress;
+	
+   parameter timeDelay = 100;
+   
+	 PC_reg15 PC_test((reset ? 16'b0 : jumpAddress), (reset | jumpEnable), 1, clock, Daddress);
+	 
+	initial begin
+		 clock = 0; reset = 0; jumpEnable = 0;
+		forever begin
+		 #50 clock = ~clock;
+		end 
+		#(timeDelay) reset = 1;
+		#(timeDelay) reset = 0;
+		#(timeDelay) jumpEnable = 1; jumpAddress = 16'b0000111100011111;
+		#50 jumpEnable = 0;
+	end 
 
 endmodule // instructionFetch_testbench
 */
+
 /*
 module programCounter (regPc,Data,RegWrite,incr_pc, clock);
 
