@@ -1,7 +1,3 @@
-module instructionDecode_Control(clock,reset,opcode_in,);
-
-    always @() begin
-        
-    end
+module instructionDecode_Control();
 
 endmodule // instructionDecode_Control
