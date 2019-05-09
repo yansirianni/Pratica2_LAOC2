@@ -1,8 +1,8 @@
 module instructionExecute(control,opA,opB,rfReadData2,result,ulaZero);
   
     input	[1:0] control;
-    input	[15:0]  opA, opB; //Seguindo o design do figma, sem sign extensor. ULA recebe direto o rfReadData2, sem mux para opB.
-    input [15:0] rfReadData2; // saída "Read data 2" do banco de registradores.
+    input	[19:0]  opA, opB; //Seguindo o design do figma, sem sign extensor. ULA recebe direto o rfReadData2, sem mux para opB.
+    input [19:0] rfReadData2; // saï¿½da "Read data 2" do banco de registradores.
     output	reg [15:0]  result;
     output reg [1:0] ulaZero;
     
@@ -13,8 +13,8 @@ endmodule
 module ula(control,opA,opB,result,ulaZero);
   
     input	[1:0] control;
-    input	[15:0]  opA, opB;
-    output	reg [15:0]  result;
+    input	[19:0]  opA, opB;
+    output	reg [19:0]  result;
     output reg [1:0] ulaZero;
 
 always @(opA, opB, control ) //ULA
@@ -36,10 +36,10 @@ endmodule
 
 module instructionExecute_testbench;
 	//reg clock,reset;
-	reg [15:0] opA;
-	reg [15:0] opB;
+	reg [19:0] opA;
+	reg [19:0] opB;
 	reg [1:0] control;
-	wire [15:0] result;
+	wire [19:0] result;
 	wire ulaZero;
 	
    parameter timeDelay = 100;
@@ -55,17 +55,17 @@ module instructionExecute_testbench;
   */
 	end 
 	initial begin
-		#(timeDelay) control = 2'b00; //Testando "soma" - Resposta Esperada: result = 16'b0000000000000010(16'd2) // aluZero = 1'b1(true);
-		 opA = 16'b0000000000000001; opB = 16'b0000000000000001;
+		#(timeDelay) control = 2'b00; //Testando "soma" - Resposta Esperada: result = 20'b00000000000000000010(20'd2) // aluZero = 1'b1(true);
+		 opA = 20'b00000000000000000001; opB = 20'b00000000000000000001;
 		 
-		#(timeDelay) control = 2'b01; //Testando "or" - Resposta Esperada: result = 16'1111111100000011(16'd65.283) // aluZero = 1'b0(false);
-		 opA = 16'b1111111100000000; opB = 16'b0000000000000011;
+		#(timeDelay) control = 2'b01; //Testando "or" - Resposta Esperada: result = 20'b11111111110000000011(20'd65.283) // aluZero = 1'b0(false);
+		 opA = 20'b11111111110000000000; opB = 20'b00000000000000000011;
 		 
-		#(timeDelay) control = 2'b10; //Testando "and" - Resposta Esperada: result = 16'16'b0000000000000101(16'd5) // aluZero = 1'b0(false);
-		 opA = 16'b0000001000000101; opB = 16'b0000000000001111;
+		#(timeDelay) control = 2'b10; //Testando "and" - Resposta Esperada: result = 20'b00000000000000000101(20'd5) // aluZero = 1'b0(false);
+		 opA = 20'b0000001000000101; opB = 20'b00000000000000001111;
 		 
-		#(timeDelay) control = 2'b11; //Testando "not" - Resposta Esperada: result = 16'b0000000011111111(16'd255) // aluZero = 1'b0(false);
-		 opA = 16'b1111111100000000; opB = 16'b0; 
+		#(timeDelay) control = 2'b11; //Testando "not" - Resposta Esperada: result = 20'b00000000001111111111(20'd255) // aluZero = 1'b0(false);
+		 opA = 20'b11111111110000000000; opB = 16'b0; 
 	end 
 
 endmodule // instructionExecute_testbench
