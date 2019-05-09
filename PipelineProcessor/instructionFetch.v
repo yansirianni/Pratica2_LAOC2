@@ -27,6 +27,22 @@ else
 		Q <= Q + 1'b1;
 endmodule
 
+/*
+module programCounter (regPc,Data,RegWrite,incr_pc, clock);
+
+input clock, incr_pc,RegWrite;
+input [15:0] Data;
+output [15:0] regPc;
+
+PC_reg15 PC(Data, RegWrite, incr_pc, clock, regPc); 
+
+endmodule
+*/
+
+  //==================================================
+    //                    Testbench
+    //==================================================
+
 module instructionFetch_testbench;
 	reg clock,reset;
 	reg [15:0] jumpAddress;
@@ -51,16 +67,3 @@ module instructionFetch_testbench;
 	end 
 
 endmodule // instructionFetch_testbench
-
-
-/*
-module programCounter (regPc,Data,RegWrite,incr_pc, clock);
-
-input clock, incr_pc,RegWrite;
-input [15:0] Data;
-output [15:0] regPc;
-
-PC_reg15 PC(Data, RegWrite, incr_pc, clock, regPc); 
-
-endmodule
-*/
