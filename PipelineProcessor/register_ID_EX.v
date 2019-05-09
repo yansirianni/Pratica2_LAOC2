@@ -1,8 +1,7 @@
-module register_ID_EX(clock, reset,opcode,extended_signal,read_data1,read_data2,dataRFOut1,dataRFOut2,opcode_out);
+module register_ID_EX(clock, reset,opcode,read_data1,read_data2,dataRFOut1,dataRFOut2,opcode_out);
 
   input clock, reset;
   input [3:0] opcode;
-	input [31:0] extended_signal; //Extensor de sinal
 	input [15:0] read_data1;  //saída 1 do bando de regs
 	input [15:0] read_data2;  //saída 2 do bando de regs
 	
