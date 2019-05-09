@@ -25,7 +25,7 @@ end
 
 assign q = Mem[addr];
 
-always @(posedge Clock)
+always @(negedge Clock)
 begin
   if (wr_en) Mem[addr] = data;
 
