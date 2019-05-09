@@ -1,8 +1,10 @@
 module instructionExecute(control,opA,opB,rfReadData2,result,ulaZero);
   
     input	[1:0] control;
+
     input	[19:0]  opA, opB; //Seguindo o design do figma, sem sign extensor. ULA recebe direto o rfReadData2, sem mux para opB.
     input [19:0] rfReadData2; // sa�da "Read data 2" do banco de registradores.
+
     output	reg [15:0]  result;
     output reg [1:0] ulaZero;
     
@@ -67,5 +69,3 @@ module instructionExecute_testbench;
 		#(timeDelay) control = 2'b11; //Testando "not" - Resposta Esperada: result = 20'b00000000001111111111(20'd255) // aluZero = 1'b0(false);
 		 opA = 20'b11111111110000000000; opB = 16'b0; 
 	end 
-
-endmodule // instructionExecute_testbench
