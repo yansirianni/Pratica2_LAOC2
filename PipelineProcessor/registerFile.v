@@ -1,0 +1,95 @@
+module registerFile (clock,Read1,Read2,WriteReg,WriteData,RegWrite,Data1,Data2);
+    input [3:0] Read1,Read2,WriteReg;
+    input [19:0] WriteData;
+    input RegWrite, clock;
+    output [19:0] Data1, Data2;
+
+    wire [15:0] decOut;
+    wire [19:0] register [15:0];
+
+    decoder dec1(WriteReg, decOut); 
+
+    //Modificado para 20 bits
+
+    register20bits register1(WriteData, decOut[0]& RegWrite , clock, register[0]);
+    register20bits register2(WriteData, decOut[1]& RegWrite , clock, register[1]);
+    register20bits register3(WriteData, decOut[2]& RegWrite , clock, register[2]);
+    register20bits register4(WriteData, decOut[3]& RegWrite , clock, register[3]);
+    register20bits register5(WriteData, decOut[4]& RegWrite , clock, register[4]);
+    register20bits register6(WriteData, decOut[5]& RegWrite , clock, register[5]);
+    register20bits register7(WriteData, decOut[6]& RegWrite , clock, register[6]);
+    register20bits register8(WriteData, decOut[7]& RegWrite , clock, register[7]);
+    register20bits register9(WriteData, decOut[8]& RegWrite , clock, register[8]);
+    register20bits register10(WriteData, decOut[9]& RegWrite , clock, register[9]);
+    register20bits register11(WriteData, decOut[10]& RegWrite , clock, register[10]);
+    register20bits register12(WriteData, decOut[11]& RegWrite , clock, register[11]);
+    register20bits register13(WriteData, decOut[12]& RegWrite , clock, register[12]);
+    register20bits register14(WriteData, decOut[13]& RegWrite , clock, register[13]);
+    register20bits register15(WriteData, decOut[14]& RegWrite , clock, register[14]);
+    register20bits register16(WriteData, decOut[15]& RegWrite , clock, register[15]);
+
+    assign Data1 = register[Read1];
+    assign Data2 = register[Read2];
+
+endmodule
+
+module decoder #(parameter N = 4) (input [N-1:0] DataIn, output reg [(1<<N)-1:0] DataOut);
+    always @ (DataIn)
+     begin
+       DataOut <= 1 << DataIn;
+     end
+endmodule
+
+module register20bits(R, Rin, Clock, Q);
+    parameter n = 20;
+    input [n-1:0] R;
+    input Rin, Clock;
+    output [n-1:0] Q;
+    reg [n-1:0] Q;
+
+    always @(negedge Clock)
+    if (Rin)
+        Q <= R;
+
+endmodule
+
+  //==================================================
+  //                    Testbench
+  //==================================================
+
+module RegisterFile_TestBench; //Template TESTBENCH for the instatiation module
+	reg [3:0] Read1,Read2,WriteReg;
+    reg [19:0] WriteData;
+    reg RegWrite, clock;
+    wire [19:0] Data1, Data2;
+	
+    parameter timeDelay = 200; //Delay time(ps) parameter
+   
+    registerFile rf (clock,Read1,Read2,WriteReg,WriteData,RegWrite,Data1,Data2);
+	 
+	initial begin
+		clock = 0; Read1 = 0; WriteReg = 0; WriteData = 0; RegWrite = 0; //Setting variables initial values
+		forever begin
+		    #100 clock = ~clock; //Defining clock pulse delay time
+		end 
+	end 
+	initial begin
+		#(timeDelay)
+            WriteData = 20'b00000000000000000001;
+            WriteReg = 4'b0001;
+            Read1 = 4'b0000;
+            RegWrite = 1;  //Value changing example routine
+
+        #(timeDelay)
+            WriteData = 20'b00000000000000000010;
+            WriteReg = 4'b0010;
+            Read1 = 4'b0001;
+
+        #(timeDelay)
+            WriteData = 20'b00000000000000000011;
+            WriteReg = 4'b0011;
+            Read1 = 4'b0010;
+
+	end 
+
+endmodule // testBench_template
