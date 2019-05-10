@@ -7,26 +7,25 @@ module instructionDecode(clock,reset,instruction,WriteAddress,ReadAddressRF1,Rea
   output reg [3:0] ReadAddressRF2;
 
   always @(posedge clock)
-    begin
-      case(instruction[19:16])
+  begin
+    case(instruction[19:16])
 
-        4'b1100:  // store
-        begin
+      4'b1100:  // store
+      begin
 
-          ReadAddressRF1 <= instruction[15:12];
-          ReadAddressRF2 <= instruction[11:8];     
+        ReadAddressRF1 <= instruction[15:12];
+        ReadAddressRF2 <= instruction[11:8];     
 
-        end
+      end
 
-      default:
-        begin
+    default:
+      begin
 
-          ReadAddressRF1 <= instruction[11:8];
-          ReadAddressRF2 <= instruction[7:4];
+        ReadAddressRF1 <= instruction[11:8];
+        ReadAddressRF2 <= instruction[7:4];
 
-        end
-      endcase
-    end
-  end
+      end
+    endcase
+  end  
 
 endmodule
