@@ -6,6 +6,14 @@ module instructionDecode_Control(clock,reset,instruction,WriteAddress,ReadAddres
   output reg [3:0] ReadAddressRF1;
   output reg [3:0] ReadAddressRF2;
 
+  //==================================================
+    //                    ATENÇÃO!
+    //==================================================
+
+/*
+* Por enquanto, há um consenso entre os devs deste projeto de que esse módulo não possui nenhuma responsabilidade. Por isso, está temporariamente sem atribuições.
+*/
+
 /*  always @(posedge clock)
   begin
     case(instruction[19:16])
@@ -29,8 +37,4 @@ module instructionDecode_Control(clock,reset,instruction,WriteAddress,ReadAddres
   end  
 */
 
-    ReadAddressRF1 = ((instruction[19:16]==4'b1100) ? instruction[15:12] : instruction[11:8]); //Tratamento de ReadAdresses diferenciado para Store.
-    ReadAddressRF2 = ((instruction[19:16]==4'b1100) ? instruction[11:8]  : instruction[7:4]);
-
-endmodule
 endmodule // instructionDecode_Control
