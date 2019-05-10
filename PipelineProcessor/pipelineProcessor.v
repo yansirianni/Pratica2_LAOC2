@@ -6,19 +6,21 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
 
     output reg W;
 
-    wire [3:0] WriteBackAddressReg; //
+    wire [3:0] WB_AddressReg; //
     wire [15:0] DataOutMux;
     
-    wire jumpEnable; // Habilita do jump no PC
-    wire [19:0] IF_ID_DataOut;
-    wire [3:0] IF_OpcodeOut;
+    wire jumpEnable; // Habilita do jump no PC e é usado para resetar PC dentro do instructionFetch
+    wire [19:0] IF_ID_Data_Out;
+    wire [3:0] IF_ID_Opcode_Out;
 
-    wire [3:0] ReadAddressRF1, ReadAddressRF2;
-    wire [3:0] ID_OpcodeOut;
+    wire [3:0] ID_ReadAddressRF1_Out, ID_ReadAddressRF2;
+    wire [3:0] ID_EX_Opcode_Out;
 
     wire [1:0] ALU_Control; // Controle da alu que esta dentro de instructionExecute
-    wire [15:0] EX_dataRFOut1, EX_dataRFOut2; // Saidas guardadas pelo registrador ID_EX
-    wire [15:0] EX_Out; // Resultado do instructionExecute
+    wire [19:0] EX_dataRFOut1, EX_dataRFOut2; // Saidas guardadas pelo registrador ID_EX
+    wire [19:0] EX_Out; // Resultado do instructionExecute
+
+    wire [19:0] MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out;
 
 
     //==================================================
@@ -26,14 +28,13 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     //==================================================
 
     //Estágio 1
-    instructionFetch IF(Clock,Reset,JumpAddress,JumpEnable,Daddress); //Carrega instruções da memória 
+    instructionFetch IF(Clock, Reset, JumpAddress, JumpEnable, Daddress); //Carrega instruções da memória 
 
     //Estágio 2
-    instructionDecode ID(Clock,Reset,IF_ID_DataOut,ReadAddressRF1,ReadAddressRF2); //Decodifica a instrução e lê os registradores 
+    instructionDecode ID(Clock, Reset, IF_ID_Data_Out, ID_ReadAddressRF1_Out, ID_ReadAddressRF2); //Decodifica a instrução e lê os registradores 
 
     //Estágio 3
-    //module instructionExecute(input	[1:0] control;input	[15:0]  opA, opB;output	reg [15:0]  result;);
-    instructionExecute EX(ALU_Control, EX_dataRFOut1, EX_dataRFOut2, EX_Out); //Executa o cálculo se necessário
+    instructionExecute EX(ALU_Control, EX_dataRFOut1, EX_dataRFOut2, EX_Out, EX_ulaZero); //Executa o cálculo se necessário
 
     //Estágio 4
     memoryAccess MEM(); //Leitura ou escrita na memória 
@@ -45,13 +46,13 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     //            Registradores de Pipeline
     //==================================================
 
-    register_IF_ID IF_ID(Clock,Reset,DataIn[19:16],DataIn,IF_ID_DataOut,IF_OpcodeOut); 
+    register_IF_ID IF_ID(Clock, Reset, DataIn[19:16], DataIn, IF_ID_Data_Out, IF_ID_Opcode_Out); 
 
-    register_ID_EX ID_EX(Clock,Reset,IF_OpcodeOut,dataRFOut1,dataRFOut2,EX_dataRFOut1,EX_dataRFOut2,ID_OpcodeOut);
+    register_ID_EX ID_EX(Clock, Reset, IF_ID_Opcode_Out, EX_dataRFOut1, EX_dataRFOut2, ID_EX_dataRFOut1, ID_EX_dataRFOut2, ID_EX_Opcode_Out);
 
-    register_EX_MEM EX_MEM();
-
-    register_MEM_WB MEM_WB();
+    register_EX_MEM EX_MEM(Clock, Reset, ID_EX_Opcode_Out, EX_UlaZero, EX_Out, EX_dataRFOut2, EX_MEM_Ula_Out, EX_MEM_AluResult_Out, EX_MEM_Opcode_Out);
+    //register_MEM_WB(clock, reset,opcode,aluRESULT,memory_read_data,aluRESULTout,memory_read_data_out);
+    register_MEM_WB MEM_WB(Clock, Reset, EX_MEM_Opcode_Out, EX_MEM_AluResult_Out, MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out);
 
     //==================================================
     //                  Controladores
@@ -69,6 +70,6 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     //                  Banco de Registradores
     //==================================================
     //module registerFile (clock,Read1,Read2,WriteReg,WriteData,RegWrite,Data1,Data2);
-    registerFile rf(Clock, ReadAddressRF1, ReadAddressRF2, WriteBackAddressReg, DataOutMux[15:0], writeEnableRegisterFile, dataRFOut1, dataRFOut2);
+    registerFile rf(Clock, ID_ReadAddressRF1_Out, ID_ReadAddressRF2, WB_AddressReg, DataOutMux[15:0], writeEnableRegisterFile, dataRFOut1, dataRFOut2);
 
 endmodule
