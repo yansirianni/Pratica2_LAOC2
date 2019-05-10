@@ -6,6 +6,7 @@ module instructionExecute(instruction, control,opA,rfReadData2,result,ulaZero,in
     input [19:0] rfReadData2; // sa�da "Read data 2" do banco de registradores.
 		input [19:0] instructionPropagation;
 
+
     output	reg [15:0]  result;
     output reg [1:0] ulaZero;
     
@@ -30,6 +31,7 @@ begin
 	  2'b11: 		result <= ~(opA);
 	  endcase
 end
+	assign instructionPropagation = instruction;
 endmodule
 
   //==================================================
