@@ -73,21 +73,20 @@ module RegisterFile_TestBench; //Template TESTBENCH for the instatiation module
 		    #100 clock = ~clock; //Defining clock pulse delay time
 		end 
 	end 
-	initial begin
+	initial begin   //Delay times changed for synchronizing write operations
 		#(timeDelay)
             WriteData = 20'b00000000000000000001;
-            RegWriteAdress = 4'b0001;
-            RegReadAddress1 = 4'b0000;
+            RegWriteAdress = 4'b0000;
             WriteEnable = 1;  //Value changing example routine
+            RegReadAddress1 = 4'b0000;
 
-        #(timeDelay)
+        #190
             WriteData = 20'b00000000000000000010;
             RegWriteAdress = 4'b0010;
             RegReadAddress1 = 4'b0001;
 
-        #(timeDelay)
+        #170
             WriteData = 20'b00000000000000000011;
-            RegWriteAdress = 4'b0011;
             RegReadAddress1 = 4'b0010;
 
 	end 
