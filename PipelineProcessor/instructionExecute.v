@@ -1,8 +1,8 @@
-module instructionExecute(control,opA,opB,rfReadData2,result,ulaZero);
+module instructionExecute(control,opA,rfReadData2,result,ulaZero);
   
     input	[1:0] control;
 
-    input	[19:0]  opA, opB; //Seguindo o design do figma, sem sign extensor. ULA recebe direto o rfReadData2, sem mux para opB.
+    input	[19:0]  opA;// opB; //Seguindo o design do figma, sem sign extensor. ULA recebe direto o rfReadData2, sem mux para opB.
     input [19:0] rfReadData2; // sa�da "Read data 2" do banco de registradores.
 
     output	reg [15:0]  result;
