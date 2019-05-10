@@ -37,7 +37,7 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     instructionExecute EX(ALU_Control, EX_dataRFOut1, EX_dataRFOut2, EX_Out, EX_ulaZero); //Executa o cálculo se necessário
 
     //Estágio 4
-    memoryAccess MEM(EX_MEM_AluResult_Out, EX_MEM_WriteData_Out, MEM_); //Leitura ou escrita na memória 
+    memoryAccess MEM(EX_MEM_AluResult_Out, EX_MEM_WriteData_Out); //Leitura ou escrita na memória 
 
     //Estágio 5
     writeBack WB(); //Escreve o resultado no banco de registradores
@@ -58,13 +58,23 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     //                  Controladores
     //==================================================
 
-    //instructionDecode_Control ID_Control();
+        //==================================================
+        //                    ATENÇÃO!
+        //==================================================
+
+        /*
+            Por enquanto, há um consenso entre os devs deste projeto de que esse módulo não possui nenhuma responsabilidade. Por isso, está temporariamente sem atribuições.
+        */
+
+    //instructionDecode_Control ID_Control(); Não será necessário
 
     instructionExecute_Control EX_Control(ID_EX_Opcode_Out, ALU_Control);
 
-    memoryAccess_Control MEM_Control();
+    //memoryAccess_Control MEM_Control(); Não será necessário
 
-    writeBack_Control WB_Control();
+    //writeBack_Control WB_Control();
+
+    
 
     //==================================================
     //                  Banco de Registradores
