@@ -13,7 +13,7 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     wire [19:0] IF_ID_Data_Out;
     wire [3:0] IF_ID_Opcode_Out;
 
-    wire [3:0] ID_ReadAddressRF1_Out, ID_ReadAddressRF2;
+    wire [3:0] ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out;
     wire [3:0] ID_EX_Opcode_Out;
 
     wire [1:0] ALU_Control; // Controle da alu que esta dentro de instructionExecute
@@ -31,13 +31,13 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     instructionFetch IF(Clock, Reset, JumpAddress, JumpEnable, Daddress); //Carrega instruções da memória 
 
     //Estágio 2
-    instructionDecode ID(Clock, Reset, IF_ID_Data_Out, ID_ReadAddressRF1_Out, ID_ReadAddressRF2); //Decodifica a instrução e lê os registradores 
+    instructionDecode ID(Clock, Reset, IF_ID_Data_Out, ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out); //Decodifica a instrução e lê os registradores 
 
     //Estágio 3
     instructionExecute EX(ALU_Control, EX_dataRFOut1, EX_dataRFOut2, EX_Out, EX_ulaZero); //Executa o cálculo se necessário
 
     //Estágio 4
-    memoryAccess MEM(); //Leitura ou escrita na memória 
+    memoryAccess MEM(EX_MEM_AluResult_Out, EX_MEM_WriteData_Out, MEM_); //Leitura ou escrita na memória 
 
     //Estágio 5
     writeBack WB(); //Escreve o resultado no banco de registradores
@@ -58,9 +58,9 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     //                  Controladores
     //==================================================
 
-    instructionDecode_Control ID_Control();
+    //instructionDecode_Control ID_Control();
 
-    instructionExecute_Control EX_Control();
+    instructionExecute_Control EX_Control(ID_EX_Opcode_Out, ALU_Control);
 
     memoryAccess_Control MEM_Control();
 
@@ -70,6 +70,6 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     //                  Banco de Registradores
     //==================================================
     //module registerFile (clock,Read1,Read2,WriteReg,WriteData,RegWrite,Data1,Data2);
-    registerFile rf(Clock, ID_ReadAddressRF1_Out, ID_ReadAddressRF2, WB_AddressReg, DataOutMux[15:0], writeEnableRegisterFile, dataRFOut1, dataRFOut2);
+    registerFile rf(Clock, ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out, WB_AddressReg, DataOutMux[15:0], writeEnableRegisterFile, dataRFOut1, dataRFOut2);
 
 endmodule
