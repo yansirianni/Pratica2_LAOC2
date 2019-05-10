@@ -1,5 +1,6 @@
-module instructionFetch(clock,reset,jumpAddress,jumpEnable,Daddress);
+module instructionFetch(instruction,clock,reset,jumpAddress,jumpEnable,Daddress, instructionPropagation);
 	input clock, reset;
+	input [19:0] instruction;
 	input [15:0] jumpAddress;
 	input jumpEnable;
 	output [15:0] Daddress;
@@ -65,5 +66,6 @@ module instructionFetch_testbench;
 		#(timeDelay) jumpEnable = 1; jumpAddress = 16'b0000111100011111;
 		#50 jumpEnable = 0;
 	end 
-
+	
+assign instruction = instructionPropagation;
 endmodule // instructionFetch_testbench

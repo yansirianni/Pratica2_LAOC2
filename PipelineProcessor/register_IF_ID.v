@@ -6,6 +6,7 @@ module register_IF_ID(clock,reset,opcode,instruction,data_out,opcode_out);
 	
 	output reg [19:0] data_out;
 	output reg [3:0] opcode_out; //propagacao do opcode para ser usado pelo proximo bloco
+	output [19:0] instructionPropagation;
 
 	always @(posedge clock)
 	begin
@@ -17,4 +18,5 @@ module register_IF_ID(clock,reset,opcode,instruction,data_out,opcode_out);
 			opcode_out <= opcode;
 		end
 	end
+	assign instructionPropagation = instruction;
 endmodule
