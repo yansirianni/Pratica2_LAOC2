@@ -1,4 +1,4 @@
-module register_MEM_WB(instructio,clock, reset,opcode,aluRESULT,memory_read_data,aluRESULTout,memory_read_data_out,	instructionPropagation);
+module register_MEM_WB(instruction,clock, reset,opcode,aluRESULT,memory_read_data,aluRESULTout,memory_read_data_out,instructionPropagation);
 
 	input clock, reset;
 	input [3:0] opcode;
