@@ -57,7 +57,7 @@ endmodule
   //                    Testbench
   //==================================================
 
-module RegisterFile_TestBench; //Template TESTBENCH for the instatiation module
+module RegisterFile_TestBench;
 	reg [3:0] RegReadAddress1,RegReadAddress2,RegWriteAdress;
     reg [19:0] WriteData;
     reg WriteEnable, clock;

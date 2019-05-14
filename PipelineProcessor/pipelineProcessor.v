@@ -6,7 +6,7 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
 
     output reg W;
 
-    wire [3:0] WB_AddressReg; //
+    wire [3:0] WB_AddressReg;
     wire [15:0] DataOutMux;
     
     wire jumpEnable; // Habilita do jump no PC e é usado para resetar PC dentro do instructionFetch
@@ -17,11 +17,9 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     wire [3:0] ID_EX_Instruction_Out;
 
     wire [1:0] ALU_Control; // Controle da alu que esta dentro de instructionExecute
+
     wire [19:0] EX_dataRFOut1, EX_dataRFOut2; // Saidas guardadas pelo registrador ID_EX
     wire [19:0] EX_Out; // Resultado do instructionExecute
-
-    wire
-
     wire [19:0] MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out;
 
 
@@ -85,4 +83,60 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     //module registerFile (clock,Read1,Read2,WriteReg,WriteData,RegWrite,Data1,Data2);
     registerFile rf(Clock, ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out, WB_AddressReg, DataOutMux[15:0], writeEnableRegisterFile, dataRFOut1, dataRFOut2);
 
+endmodule
+
+//==================================================
+    //                    Testbench
+    //==================================================
+
+
+module pipelineProcessor_testbench;
+    reg [19:0] DataIn;
+    reg Reset, Clock;
+    wire [19:0] Dout, Daddress;
+
+    wire W;
+
+    wire [3:0] WB_AddressReg;
+    wire [15:0] DataOutMux;
+    
+    wire jumpEnable; 
+    wire [19:0] IF_ID_Data_Out;
+    wire [19:0] IF_ID_Instruction_Out;
+
+    wire [3:0] ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out;
+    wire [3:0] ID_EX_Instruction_Out;
+
+    wire [1:0] ALU_Control; 
+
+    wire [19:0] EX_dataRFOut1, EX_dataRFOut2; 
+    wire [19:0] EX_Out;
+    wire [19:0] MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out;
+
+   parameter timeDelay = 200;
+
+	 pipelineProcessor  pipelineProcessor_TestBench (DataIn, Reset, Clock, Dout, Daddress, W);
+
+	 initial begin //RESETING EVERYTHING
+	   DataIn = 0;
+		  Clock = 0; Reset = 1;
+      forever begin
+		    #50 Clock = ~Clock;
+		  end
+	  end 
+
+	initial begin
+        //STORE DO DADO DO REGISTRADOR 0000(inicializado na memoria) PARA O REGISTRADOR 1111
+        #(timeDelay) DataIn = 20'b11001111000000000000; //Saídas esperadas: Dout = ; Daddress = ; W = ;
+
+        //ADD DO DADO DO REGISTRADOR 0000 E O REGISTRADOR 1111, SALVO EM REGISTRADOR 0001
+        #(timeDelay) DataIn = 20'b00000001111100000000; //Saídas esperadas: Dout = ; Daddress = ; W = ; 
+
+        //NOT DO DADO DO REGISTRADOR 0001, SALVO EM REGISTRADOR 0010
+        #(timeDelay) DataIn = 20'b00110001111100000000; //Saídas esperadas: Dout = ; Daddress = ; W = ;
+
+         //LOAD DO ENDEREÇO NO REGISTRADOR 0000 SALVO EM REGISTRADOR 0011
+            //(LEMBRAR DE DEFINIR O ENDEREÇO NO REGISTRADOR 0000 E DEFINIR O DADO NO REGISTRADOR NO ENDEREÇO GUARADO POR 0000)
+          #(timeDelay) DataIn = 20'b1011 0011 0000 00000000; //Saídas esperadas: Dout = ; Daddress = ; W = ;
+    end 
 endmodule
