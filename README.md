@@ -1,4 +1,4 @@
-# Pratica2_LAOC2
+# Pipeline Processor
 
 Prática 2 - Alterar a implementação para adicionar a estrutura de PIPELINE Arquivo
 
