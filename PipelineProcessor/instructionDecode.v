@@ -28,7 +28,7 @@ module instructionDecode_testbench;
    parameter timeDelay = 100;
 	 instructionDecode instructionDecode_test(instruction,clock,reset,ReadAddressRF1,ReadAddressRF2,instructionPropagation);
 	 initial begin //RESETING EVERYTHING
-	   instruction = 0 ; ReadAddressRF1 = 0 ; ReadAddressRF2 = 0 ; instructionPropagation = 0 ;
+	   instruction = 0;
 		  clock = 0; reset = 0;
       forever begin
 		    #50 clock = ~clock;
@@ -40,3 +40,4 @@ module instructionDecode_testbench;
   //COPY ... WHATEVER...
   #(timeDelay) instruction = 20'b11100000111100000000; //Saídas esperadas: ReadAddressRF1 = 1111 ; ReadAddressRF2 = 0000
 	end 
+endmodule
