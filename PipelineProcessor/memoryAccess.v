@@ -7,7 +7,7 @@ module memoryAccess(instruction, address, writeData, writeEnable, writeEnable_Ou
     output writeEnable_Out;
     output [19:0] writeData_Out;
     output [19:0] addressOut;
-    output [19:0] instructionPropagation; // ainda é necessário? Sim.
+    output [19:0] instructionPropagation;
 
 
     //module memory_main (addr, data, wr_en, Clock, q);
