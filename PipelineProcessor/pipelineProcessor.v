@@ -11,14 +11,16 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     
     wire jumpEnable; // Habilita do jump no PC e é usado para resetar PC dentro do instructionFetch
     wire [19:0] IF_ID_Data_Out;
-    wire [3:0] IF_ID_Opcode_Out;
+    wire [19:0] IF_ID_Instruction_Out;
 
     wire [3:0] ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out;
-    wire [3:0] ID_EX_Opcode_Out;
+    wire [3:0] ID_EX_Instruction_Out;
 
     wire [1:0] ALU_Control; // Controle da alu que esta dentro de instructionExecute
     wire [19:0] EX_dataRFOut1, EX_dataRFOut2; // Saidas guardadas pelo registrador ID_EX
     wire [19:0] EX_Out; // Resultado do instructionExecute
+
+    wire
 
     wire [19:0] MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out;
 
@@ -37,7 +39,8 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     instructionExecute EX(ALU_Control, EX_dataRFOut1, EX_dataRFOut2, EX_Out, EX_ulaZero); //Executa o cálculo se necessário
 
     //Estágio 4
-    memoryAccess MEM(EX_MEM_AluResult_Out, EX_MEM_WriteData_Out); //Leitura ou escrita na memória 
+    //module memoryAccess(instruction, address, writeData, writeEnable, writeEnable_Out, writeData_Out, address_Out, instructionPropagation);
+    memoryAccess MEM(EX_MEM_Instruction_Out, EX_MEM_AluResult_Out, EX_MEM_WriteData_Out); //Leitura ou escrita na memória 
 
     //Estágio 5
     writeBack WB(); //Escreve o resultado no banco de registradores
@@ -46,31 +49,31 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     //            Registradores de Pipeline
     //==================================================
 
-    register_IF_ID IF_ID(Clock, Reset, DataIn[19:16], DataIn, IF_ID_Data_Out, IF_ID_Opcode_Out); 
+    register_IF_ID IF_ID(Clock, Reset, DataIn[19:16], DataIn, IF_ID_Data_Out, IF_ID_Instruction_Out); 
 
-    register_ID_EX ID_EX(Clock, Reset, IF_ID_Opcode_Out, EX_dataRFOut1, EX_dataRFOut2, ID_EX_dataRFOut1, ID_EX_dataRFOut2, ID_EX_Opcode_Out);
+    register_ID_EX ID_EX(Clock, Reset, IF_ID_Instruction_Out, EX_dataRFOut1, EX_dataRFOut2, ID_EX_dataRFOut1, ID_EX_dataRFOut2, ID_EX_Instruction_Out);
 
-    register_EX_MEM EX_MEM(Clock, Reset, ID_EX_Opcode_Out, EX_UlaZero, EX_Out, EX_dataRFOut2, EX_MEM_Ula_Out, EX_MEM_AluResult_Out, EX_MEM_Opcode_Out);
+    register_EX_MEM EX_MEM(Clock, Reset, ID_EX_Instruction_Out, EX_UlaZero, EX_Out, EX_dataRFOut2, EX_MEM_Ula_Out, EX_MEM_AluResult_Out, EX_MEM_Instruction_Out);
     //register_MEM_WB(clock, reset,opcode,aluRESULT,memory_read_data,aluRESULTout,memory_read_data_out);
-    register_MEM_WB MEM_WB(Clock, Reset, EX_MEM_Opcode_Out, EX_MEM_AluResult_Out, MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out);
+    register_MEM_WB MEM_WB(Clock, Reset, EX_MEM_Instruction_Out, EX_MEM_AluResult_Out, MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out);
 
     //==================================================
     //                  Controladores
     //==================================================
 
-        //==================================================
-        //                    ATENÇÃO!
-        //==================================================
+    //==================================================
+    //                    ATENÇÃO!
+    //==================================================
 
-        /*
-            Por enquanto, há um consenso entre os devs deste projeto de que esse módulo não possui nenhuma responsabilidade. Por isso, está temporariamente sem atribuições.
-        */
+    /*
+        Por enquanto, há um consenso entre os devs deste projeto de que esse módulo não possui nenhuma responsabilidade. Por isso, está temporariamente sem atribuições.
+    */
 
     //instructionDecode_Control ID_Control(); Não será necessário
 
-    instructionExecute_Control EX_Control(ID_EX_Opcode_Out, ALU_Control);
+    instructionExecute_Control EX_Control(ID_EX_Instruction_Out, ALU_Control);
 
-    //memoryAccess_Control MEM_Control(); Não será necessário
+    memoryAccess_Control MEM_Control(EX_MEM_Instruction_Out, MEM_WriteEnable_Control);
 
     //writeBack_Control WB_Control();
 
