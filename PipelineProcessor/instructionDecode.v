@@ -1,6 +1,4 @@
-module instructionDecode(instruction,clock,reset,ReadAddressRF1,ReadAddressRF2,instructionPropagation);
-  input clock;
-  input reset;
+module instructionDecode(instruction,ReadAddressRF1,ReadAddressRF2,instructionPropagation);
   input [19:0] instruction;
   output [3:0] ReadAddressRF1;
   output [3:0] ReadAddressRF2;
@@ -20,7 +18,6 @@ endmodule
 
 
 module instructionDecode_testbench;
-  reg clock, reset;
   reg [19:0] instruction;
   wire [3:0] ReadAddressRF1;
   wire [3:0] ReadAddressRF2;
