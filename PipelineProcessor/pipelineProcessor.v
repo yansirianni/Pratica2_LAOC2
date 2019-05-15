@@ -19,7 +19,13 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     wire [1:0] ALU_Control; // Controle da alu que esta dentro de instructionExecute
 
     wire [19:0] EX_dataRFOut1, EX_dataRFOut2; // Saidas guardadas pelo registrador ID_EX
-    wire [19:0] EX_Out; // Resultado do instructionExecute
+    wire [19:0] EX_Alu_Out; // Resultado do instructionExecute
+    wire EX_AluZero_Out; // Saida zero da ALU
+    wire EX_MEM_AluZero_Out; // Saida zero do registrador
+    wire [19:0] EX_MEM_AluResult_Out, EX_MEM_Instruction_Out, EX_MEM_WriteData_Out;
+
+    wire MEM_Address_Control, MEM_WriteEnable_Control, MEM_WriteEnable_Control_Out;
+    wire [19:0] MEM_WriteData_Out, MEM_Address_Out, MEM_Instruction_Out;
     wire [19:0] MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out;
 
 
@@ -34,11 +40,11 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     instructionDecode ID(Clock, Reset, IF_ID_Data_Out, ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out); //Decodifica a instrução e lê os registradores 
 
     //Estágio 3
-    instructionExecute EX(ALU_Control, EX_dataRFOut1, EX_dataRFOut2, EX_Out, EX_ulaZero); //Executa o cálculo se necessário
+    instructionExecute EX(ALU_Control, EX_dataRFOut1, EX_dataRFOut2, EX_Alu_Out, EX_AluZero_Out); //Executa o cálculo se necessário
 
     //Estágio 4
     //module memoryAccess(instruction, address, writeData, writeEnable, writeEnable_Out, writeData_Out, address_Out, instructionPropagation);
-    memoryAccess MEM(EX_MEM_Instruction_Out, EX_MEM_AluResult_Out, EX_MEM_WriteData_Out); //Leitura ou escrita na memória 
+    memoryAccess MEM(EX_MEM_Instruction_Out, MEM_Address_Control == 1'b0 ? EX_MEM_AluResult_Out : EX_MEM_Instruction_Out[11:0], EX_MEM_WriteData_Out, MEM_WriteEnable_Control, MEM_WriteEnable_Control_Out, MEM_WriteData_Out, MEM_Address_Out, MEM_Instruction_Out); //Leitura ou escrita na memória 
 
     //Estágio 5
     writeBack WB(); //Escreve o resultado no banco de registradores
@@ -50,8 +56,8 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
     register_IF_ID IF_ID(Clock, Reset, DataIn[19:16], DataIn, IF_ID_Data_Out, IF_ID_Instruction_Out); 
 
     register_ID_EX ID_EX(Clock, Reset, IF_ID_Instruction_Out, EX_dataRFOut1, EX_dataRFOut2, ID_EX_dataRFOut1, ID_EX_dataRFOut2, ID_EX_Instruction_Out);
-
-    register_EX_MEM EX_MEM(Clock, Reset, ID_EX_Instruction_Out, EX_UlaZero, EX_Out, EX_dataRFOut2, EX_MEM_Ula_Out, EX_MEM_AluResult_Out, EX_MEM_Instruction_Out);
+    //module register_EX_MEM(clock,reset,instruction,aluZERO,aluRESULT,aluZEROout,aluRESULTout,instructionPropagation);
+    register_EX_MEM EX_MEM(Clock, Reset, ID_EX_Instruction_Out, EX_AluZero_Out, EX_Alu_Out, EX_MEM_AluZero_Out, EX_MEM_AluResult_Out, EX_MEM_Instruction_Out);
     //register_MEM_WB(clock, reset,opcode,aluRESULT,memory_read_data,aluRESULTout,memory_read_data_out);
     register_MEM_WB MEM_WB(Clock, Reset, EX_MEM_Instruction_Out, EX_MEM_AluResult_Out, MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out);
 
@@ -71,7 +77,7 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, W);
 
     instructionExecute_Control EX_Control(ID_EX_Instruction_Out, ALU_Control);
 
-    memoryAccess_Control MEM_Control(EX_MEM_Instruction_Out, MEM_WriteEnable_Control);
+    memoryAccess_Control MEM_Control(EX_MEM_Instruction_Out, MEM_WriteEnable_Control, MEM_Address_Control);
 
     //writeBack_Control WB_Control();
 
@@ -110,7 +116,7 @@ module pipelineProcessor_testbench;
     wire [1:0] ALU_Control; 
 
     wire [19:0] EX_dataRFOut1, EX_dataRFOut2; 
-    wire [19:0] EX_Out;
+    wire [19:0] EX_Alu_Out;
     wire [19:0] MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out;
 
    parameter timeDelay = 200;
