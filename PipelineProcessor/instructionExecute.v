@@ -1,25 +1,24 @@
-module instructionExecute(instruction, control,opA,rfReadData2,result,ulaZero,instructionPropagation);
+module instructionExecute(instruction, control,opA,opB,result,ulaZero,instructionPropagation);
   
     input	[1:0] control;
   	input [19:0] instruction;
-    input	[19:0]  opA;// opB; //Seguindo o design do figma, sem sign extensor. ULA recebe direto o rfReadData2, sem mux para opB.
-    input [19:0] rfReadData2; // sa�da "Read data 2" do banco de registradores.
+    input	[19:0] opA;// opB; //Seguindo o design do figma, sem sign extensor. ULA recebe direto o rfReadData2, sem mux para opB.
+    input [19:0] opB; // sa�da "Read data 2" do banco de registradores.
 		input [19:0] instructionPropagation;
-
 
     output	reg [15:0]  result;
     output reg [1:0] ulaZero;
     
-ula ex_ula(control,opA,rfReadData2,result,ulaZero);
+ula ex_ula(control,opA,opB,result,ulaZero);
 
 endmodule
 
 module ula(control,opA,opB,result,ulaZero);
   
-    input	[1:0] control;
-    input	[19:0]  opA, opB;
-    output	reg [19:0]  result;
-    output reg [1:0] ulaZero;
+	input	[1:0] control;
+	input	[19:0]  opA, opB;
+	output	reg [19:0]  result;
+	output reg [1:0] ulaZero;
 
 always @(opA, opB, control ) //ULA
 begin
