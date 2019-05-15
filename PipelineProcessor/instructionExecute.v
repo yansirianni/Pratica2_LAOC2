@@ -1,24 +1,26 @@
-module instructionExecute(instruction, control,opA,opB,result,ulaZero,instructionPropagation);
+module instructionExecute(instruction,control,opA,opB,result,ulaZero,instructionPropagation);
   
-    input	[1:0] control;
-  	input [19:0] instruction;
-    input	[19:0] opA;// opB; //Seguindo o design do figma, sem sign extensor. ULA recebe direto o rfReadData2, sem mux para opB.
-    input [19:0] opB; // sa�da "Read data 2" do banco de registradores.
-		input [19:0] instructionPropagation;
+	input	[1:0] control;
+	input [19:0] instruction;
+	input	[19:0] opA;// opB; //Seguindo o design do figma, sem sign extensor. ULA recebe direto o rfReadData2, sem mux para opB.
+	input [19:0] opB; // sa�da "Read data 2" do banco de registradores.
+	output [19:0] instructionPropagation;
 
-    output	reg [15:0]  result;
-    output reg [1:0] ulaZero;
+	output [19:0] result;
+	output ulaZero;
     
-ula ex_ula(control,opA,opB,result,ulaZero);
+	ula ex_ula(control,opA,opB,result,ulaZero);
+
+	assign instructionPropagation = instruction;
 
 endmodule
 
 module ula(control,opA,opB,result,ulaZero);
   
 	input	[1:0] control;
-	input	[19:0]  opA, opB;
-	output	reg [19:0]  result;
-	output reg [1:0] ulaZero;
+	input	[19:0] opA, opB;
+	output reg [19:0] result;
+	output reg ulaZero;
 
 always @(opA, opB, control ) //ULA
 begin
@@ -30,14 +32,13 @@ begin
 	  2'b11: 		result <= ~(opA);
 	  endcase
 end
-	assign instructionPropagation = instruction;
 endmodule
 
   //==================================================
     //                    Testbench
     //==================================================
 
-
+/*
 module instructionExecute_testbench;
 	//reg clock,reset;
 	reg [19:0] opA;
@@ -56,7 +57,7 @@ module instructionExecute_testbench;
 	**  forever begin
 	**	  #50 clock = ~clock;
 	**	 end
-  */
+  
 	end 
 	initial begin
 		#(timeDelay) control = 2'b00; //Testando "soma" - Resposta Esperada: result = 20'b00000000000000000010(20'd2) // aluZero = 1'b1(true);
@@ -71,3 +72,4 @@ module instructionExecute_testbench;
 		#(timeDelay) control = 2'b11; //Testando "not" - Resposta Esperada: result = 20'b00000000001111111111(20'd255) // aluZero = 1'b0(false);
 		 opA = 20'b11111111110000000000; opB = 16'b0; 
 	end 
+	*/

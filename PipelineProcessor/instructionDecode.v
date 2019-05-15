@@ -16,7 +16,7 @@ endmodule
     //                    Testbench
     //==================================================
 
-
+/*
 module instructionDecode_testbench;
   reg [19:0] instruction;
   wire [3:0] ReadAddressRF1;
@@ -38,3 +38,4 @@ module instructionDecode_testbench;
   #(timeDelay) instruction = 20'b11100000111100000000; //Saídas esperadas: ReadAddressRF1 = 1111 ; ReadAddressRF2 = 0000
 	end 
 endmodule
+*/

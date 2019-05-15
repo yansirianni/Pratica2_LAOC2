@@ -1,31 +1,30 @@
-module instructionFetch(instruction,clock,reset,jumpAddress,jumpEnable,Daddress, instructionPropagation);
+module instructionFetch(clock,reset,jumpAddress,jumpEnable,Daddress);
 	input clock, reset;
-	input [19:0] instruction;
-	input [15:0] jumpAddress;
+	input [19:0] jumpAddress;
 	input jumpEnable;
-	output [15:0] Daddress;
+	output [19:0] Daddress;
 
-  PC_reg15 pc1 ((reset ? 16'b0 : jumpAddress), (reset | jumpEnable), 1, clock, Daddress); //Por enquanto sem resolucao de hazards
+  PC_reg19 pc1 ((reset ? 20'b0 : jumpAddress), (reset | jumpEnable), 1'b1, clock, Daddress); //Por enquanto sem resolucao de hazards
 
 endmodule
 
 // Registrador do PC
-module PC_reg15 (R, L, incr_pc, Clock, Q);
-input [15:0] R;
-input L, incr_pc, Clock;
-output reg [15:0] Q;
+module PC_reg19 (R, L, incr_pc, Clock, Q);
+	input [19:0] R;
+	input L, incr_pc, Clock;
+	output reg [19:0] Q;
 
-initial
-begin
-  Q <= 16'b0;
-end
+	initial
+	begin
+		Q <= 20'b0;
+	end
 
-always @(posedge Clock)
-if (L)
-	Q <= R;
-else
-	if (incr_pc)
-		Q <= Q + 1'b1;
+	always @(posedge Clock)
+	if (L)
+		Q <= R;
+	else
+		if (incr_pc)
+			Q <= Q + 1'b1;
 endmodule
 
 /*
@@ -43,7 +42,7 @@ endmodule
   //==================================================
     //                    Testbench
     //==================================================
-
+/*
 module instructionFetch_testbench;
 	reg clock,reset;
 	reg [15:0] jumpAddress;
@@ -69,3 +68,4 @@ module instructionFetch_testbench;
 	
 assign instruction = instructionPropagation;
 endmodule // instructionFetch_testbench
+*/

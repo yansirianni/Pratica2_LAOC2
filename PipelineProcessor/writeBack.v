@@ -2,9 +2,9 @@ module writeBack(instruction,aluRESULTout,memoryReadData,address,writeBackEnable
   input [19:0] instruction;
   input [19:0] aluRESULTout;
   input [19:0] memoryReadData;
-  input [19:0] address;
+  input [3:0] address;
   output writeBackEnable;
-  output [19:0] writeBackAddress_Out;
+  output [3:0] writeBackAddress_Out;
   output [19:0] writeBackData_Out;
 
   wire [3:0] opcode;
