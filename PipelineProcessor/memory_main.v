@@ -19,8 +19,10 @@ module memory_main (mem_addr, addr, data, wr_en, Clock, q, q_mem);
     Mem[ 5'b00111] = {4'b0, 4'b1111, 4'b0, 4'b0001, 4'b0}; //Add para $s15 de $s0, $s1
     //load
     Mem[ 5'b01000] = {4'b1101, 4'b1110, 4'b0, 4'b0, 4'b0}; //load para $s14 de $s0
-    //
+    //store
     Mem[ 5'b01001] = {4'b1100, 4'b0, 4'b01, 4'b0, 4'b0};
+    //copy
+    Mem[ 5'b01010] = {4'b1110, 4'b0101, 4'b0010, 4'b0, 4'b0};//copy do $s2 para $s5
     // //or
     // Mem[ 5'b01000] = {4'b0001, 4'b1110, 4'b0001, 4'b0010, 4'b0}; //Or para $s14 de $s1,$s2
 
