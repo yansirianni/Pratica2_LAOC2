@@ -11,7 +11,7 @@ module register_MEM_WB(clock,reset,instruction,aluRESULT,memory_read_data,aluRES
 		if (reset) begin
 			aluRESULTout <= 20'b0;
 			memory_read_data_out <= 20'b0;
-			instructionPropagation <= 20'b0;
+			//instructionPropagation <= 20'b0;
 		end else begin
 			aluRESULTout <= aluRESULT;
 			memory_read_data_out <= memory_read_data;

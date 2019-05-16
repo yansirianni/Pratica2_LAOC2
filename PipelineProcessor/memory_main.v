@@ -1,9 +1,9 @@
-module memory_main (addr, data, wr_en, Clock, q);
+module memory_main (mem_addr, addr, data, wr_en, Clock, q, q_mem);
 
-  input [4:0] addr;
+  input [4:0] addr, mem_addr;
   input [19:0] data; //Mudar para 20 bits
   input wr_en, Clock;
-  output [19:0] q;
+  output [19:0] q, q_mem;
 
   reg [19:0] Mem [0:31];
 
@@ -25,10 +25,11 @@ module memory_main (addr, data, wr_en, Clock, q);
   end
 
   assign q = Mem[addr];
+  assign q_mem = Mem[mem_addr];
 
   always @(negedge Clock)
   begin
-    if (wr_en) Mem[addr] = data;
+    if (wr_en) Mem[mem_addr] = data;
 
   end
 

@@ -1,9 +1,10 @@
-module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, MEM_Address_Out);
+module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, MEM_Address_Out, Daddress, MEM_WriteEnable_Out);
 
-    input [19:0] DataIn;
+    input [19:0] DataIn, DataIn_Mem;
     input Reset, Clock;
-    output [19:0] Dout, Daddress;
+    output [19:0] MEM_WriteData_Out, Daddress;
     output [19:0] MEM_Address_Out;
+    output MEM_WriteEnable_Out;
 
     wire [19:0] dataRFOut1, dataRFOut2;
 
@@ -27,9 +28,9 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, MEM_Address_Out)
     wire EX_MEM_AluZero_Out; // Saida zero do registrador
     wire [19:0] EX_MEM_AluResult_Out, EX_MEM_Instruction_Out, EX_MEM_WriteData_Out;
 
-    wire MEM_Address_Control, MEM_WriteEnable_Control, MEM_WriteEnable_Control_Out;
-    wire [19:0] MEM_WriteData_Out, MEM_Instruction_Out;
-    wire [19:0] MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out, MEM_WB_Instruction_Out;
+    wire MEM_Address_Control, MEM_WriteEnable_Control;
+    wire [19:0] MEM_Instruction_Out;
+    wire [19:0] MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out, MEM_WB_Instruction_Out;
 
     wire WB_WriteEnable_Out;
     wire [3:0] WB_Address_Out;
@@ -54,7 +55,7 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, MEM_Address_Out)
 
     //Estágio 4
     //module memoryAccess(instruction, address, writeData, writeEnable, writeEnable_Out, writeData_Out, address_Out, instructionPropagation);
-    memoryAccess MEM(EX_MEM_Instruction_Out, MEM_Address_Control == 1'b0 ? EX_MEM_AluResult_Out : EX_MEM_Instruction_Out[11:0], EX_MEM_WriteData_Out, MEM_WriteEnable_Control, MEM_WriteEnable_Control_Out, MEM_WriteData_Out, MEM_Address_Out, MEM_Instruction_Out); //Leitura ou escrita na memória 
+    memoryAccess MEM(EX_MEM_Instruction_Out, MEM_Address_Control == 1'b0 ? EX_MEM_AluResult_Out : EX_MEM_Instruction_Out[11:0], EX_MEM_WriteData_Out, MEM_WriteEnable_Control, MEM_WriteEnable_Out, MEM_WriteData_Out, MEM_Address_Out, MEM_Instruction_Out); //Leitura ou escrita na memória 
 
     //Estágio 5
     //module writeBack(reset,instruction,aluRESULTout,memoryReadData,address,writeBackEnable,writeBackAddress_Out,writeBackData_Out);
@@ -71,7 +72,7 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, MEM_Address_Out)
     //module register_EX_MEM(clock,reset,instruction,aluZERO,aluRESULT,aluZEROout,aluRESULTout,instructionPropagation);
     register_EX_MEM EX_MEM(Clock, Reset, EX_Instruction_Out, EX_AluZero_Out, EX_Alu_Out, EX_MEM_AluZero_Out, EX_MEM_AluResult_Out, EX_MEM_Instruction_Out);
     //module register_MEM_WB(clock,reset,instruction,aluRESULT,memory_read_data,aluRESULTout,memory_read_data_out,instructionPropagation);
-    register_MEM_WB MEM_WB(Clock, Reset, MEM_Instruction_Out, EX_MEM_AluResult_Out, MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out, MEM_WB_Instruction_Out);
+    register_MEM_WB MEM_WB(Clock, Reset, MEM_Instruction_Out, EX_MEM_AluResult_Out, DataIn_Mem, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out, MEM_WB_Instruction_Out);
 
     //==================================================
     //                  Controladores

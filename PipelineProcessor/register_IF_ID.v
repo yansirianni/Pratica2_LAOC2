@@ -8,7 +8,7 @@ module register_IF_ID(clock,reset,instruction,instructionPropagation);
 	always @(posedge clock)
 	begin
 		if (reset) begin
-			instructionPropagation <= 20'b0;
+			//instructionPropagation <= 20'b0;
 		end else begin
 			instructionPropagation <= instruction;
 		end
