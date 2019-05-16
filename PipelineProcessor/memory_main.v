@@ -18,6 +18,8 @@ module memory_main (mem_addr, addr, data, wr_en, Clock, q, q_mem);
     //add
     Mem[ 5'b00111] = {4'b0, 4'b1111, 4'b0, 4'b0001, 4'b0}; //Add para $s15 de $s0, $s1
     
+    //or
+    Mem[ 5'b01000] = {4'b0001, 4'b1110, 4'b0001, 4'b0010, 4'b0}; //Add para $s14 de $s1,$s2
 
     // Mem[ 5'b00100] = {4'b1110, 4'b0110, 4'b0100, 8'b0};
     // Mem[ 5'b00101] = {4'b0011, 4'b0001, 12'b0};
