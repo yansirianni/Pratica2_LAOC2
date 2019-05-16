@@ -1,7 +1,7 @@
-module register_EX_MEM(clock,reset,instruction,aluZERO,aluRESULT,aluZEROout,aluRESULTout,instructionPropagation);
+module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,aluRESULT,aluZEROout,aluRESULTout,dataRFOut1_Out,dataRFOut2_Out,instructionPropagation);
 
   	input clock, reset;
-  	input [19:0] instruction;
+  	input [19:0] instruction, dataRFOut1, dataRFOut2;
 	input aluZERO; //zero da ULA
 	input [19:0] aluRESULT; //saida da ULA
 	 
@@ -10,7 +10,7 @@ module register_EX_MEM(clock,reset,instruction,aluZERO,aluRESULT,aluZEROout,aluR
 	 **/
 	 
 	output reg aluZEROout;
-	output reg [19:0] aluRESULTout;
+	output reg [19:0] aluRESULTout, dataRFOut1_Out, dataRFOut2_Out;
 	output reg [19:0] instructionPropagation;
 
 
@@ -23,6 +23,8 @@ module register_EX_MEM(clock,reset,instruction,aluZERO,aluRESULT,aluZEROout,aluR
 			aluZEROout <= aluZERO;
 			aluRESULTout <= aluRESULT;
 			instructionPropagation <= instruction;
+			dataRFOut1_Out <= dataRFOut1;
+			dataRFOut2_Out <= dataRFOut2;
 		end
 	end
 
