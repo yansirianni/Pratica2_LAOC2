@@ -57,8 +57,8 @@ module pipelineProcessor (DataIn, Reset, Clock, Dout, Daddress, MEM_Address_Out)
     memoryAccess MEM(EX_MEM_Instruction_Out, MEM_Address_Control == 1'b0 ? EX_MEM_AluResult_Out : EX_MEM_Instruction_Out[11:0], EX_MEM_WriteData_Out, MEM_WriteEnable_Control, MEM_WriteEnable_Control_Out, MEM_WriteData_Out, MEM_Address_Out, MEM_Instruction_Out); //Leitura ou escrita na memória 
 
     //Estágio 5
-    //module writeBack(instruction,aluRESULTout,memoryReadData,address,writeBackEnable,writeBackAddress_Out,writeBackData_Out);
-    writeBack WB(MEM_WB_Instruction_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out, MEM_WB_Instruction_Out[15:12], WB_WriteEnable_Out, WB_Address_Out, WB_Data_Out); //Escreve o resultado no banco de registradores
+    //module writeBack(reset,instruction,aluRESULTout,memoryReadData,address,writeBackEnable,writeBackAddress_Out,writeBackData_Out);
+    writeBack WB(Reset, MEM_WB_Instruction_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out, MEM_WB_Instruction_Out[15:12], WB_WriteEnable_Out, WB_Address_Out, WB_Data_Out); //Escreve o resultado no banco de registradores
 
     //==================================================
     //            Registradores de Pipeline
