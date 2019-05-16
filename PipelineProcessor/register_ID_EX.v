@@ -16,7 +16,7 @@ module register_ID_EX(clock,reset,instruction,read_data1,read_data2,dataRFOut1,d
 			//instructionPropagation <= 20'b0;
 		end else begin
 			dataRFOut1 <= read_data1;
-			dataRFOut2 <= dataRFOut2;
+			dataRFOut2 <= read_data2;
 			instructionPropagation <= instruction;
 		end
 	end

@@ -51,7 +51,7 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
 
     //Estágio 3
     //module instructionExecute(instruction,control,opA,opB,result,ulaZero,instructionPropagation);
-    instructionExecute EX(ID_EX_Instruction_Out, ALU_Control, EX_dataRFOut1, EX_dataRFOut2, EX_Alu_Out, EX_AluZero_Out, EX_Instruction_Out); //Executa o cálculo se necessário
+    instructionExecute EX(ID_EX_Instruction_Out, ALU_Control, ID_EX_dataRFOut1, ID_EX_dataRFOut2, EX_Alu_Out, EX_AluZero_Out, EX_Instruction_Out); //Executa o cálculo se necessário
 
     //Estágio 4
     //module memoryAccess(instruction, address, writeData, writeEnable, writeEnable_Out, writeData_Out, address_Out, instructionPropagation);
@@ -68,7 +68,7 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     //module register_IF_ID(clock,reset,instruction,instructionPropagation);
     register_IF_ID IF_ID(Clock, Reset, DataIn, IF_ID_Instruction_Out); 
     //module register_ID_EX(clock,reset,instruction,read_data1,read_data2,dataRFOut1,dataRFOut2,instructionPropagation);
-    register_ID_EX ID_EX(Clock,Reset,ID_Instruction_Out,EX_dataRFOut1,EX_dataRFOut2,ID_EX_dataRFOut1,ID_EX_dataRFOut2,ID_EX_Instruction_Out);
+    register_ID_EX ID_EX(Clock,Reset,ID_Instruction_Out,dataRFOut1,dataRFOut2,ID_EX_dataRFOut1,ID_EX_dataRFOut2,ID_EX_Instruction_Out);
     //module register_EX_MEM(clock,reset,instruction,aluZERO,aluRESULT,aluZEROout,aluRESULTout,instructionPropagation);
     register_EX_MEM EX_MEM(Clock, Reset, EX_Instruction_Out, EX_AluZero_Out, EX_Alu_Out, EX_MEM_AluZero_Out, EX_MEM_AluResult_Out, EX_MEM_Instruction_Out);
     //module register_MEM_WB(clock,reset,instruction,aluRESULT,memory_read_data,aluRESULTout,memory_read_data_out,instructionPropagation);

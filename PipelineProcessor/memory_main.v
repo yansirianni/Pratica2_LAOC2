@@ -14,6 +14,11 @@ module memory_main (mem_addr, addr, data, wr_en, Clock, q, q_mem);
     Mem[ 5'b00001] = {4'b1111, 4'b0001, 7'b0, 5'b11110}; //Copy input para $s1
     Mem[ 5'b00010] = {4'b1111, 4'b0010, 7'b0, 5'b11111}; //Copy input para $s2
 
+
+    //add
+    Mem[ 5'b00111] = {4'b0, 4'b1111, 4'b0, 4'b0001, 4'b0}; //Add para $s15 de $s0, $s1
+    
+
     // Mem[ 5'b00100] = {4'b1110, 4'b0110, 4'b0100, 8'b0};
     // Mem[ 5'b00101] = {4'b0011, 4'b0001, 12'b0};
 
