@@ -16,15 +16,15 @@ module memory_main (mem_addr, addr, data, wr_en, Clock, q, q_mem);
 
 
     //add
-    Mem[ 5'b00111] = {4'b0, 4'b1111, 4'b0, 4'b0001, 4'b0}; //Add para $s15 de $s0, $s1
+    //Mem[ 5'b00111] = {4'b0, 4'b1111, 4'b0, 4'b0001, 4'b0}; //Add para $s15 de $s0, $s1
     //load
     Mem[ 5'b01000] = {4'b1101, 4'b1110, 4'b0, 4'b0, 4'b0}; //load para $s14 de $s0
     //store
-    Mem[ 5'b01001] = {4'b1100, 4'b0, 4'b01, 4'b0, 4'b0};
+   // Mem[ 5'b00111] = {4'b1100, 4'b0, 4'b01, 4'b0, 4'b0};
     //copy
-    Mem[ 5'b01010] = {4'b1110, 4'b0101, 4'b0010, 4'b0, 4'b0};//copy do $s2 para $s5
+    //Mem[ 5'b00111] = {4'b1110, 4'b0101, 4'b0010, 4'b0, 4'b0};//copy do $s2 para $s5
     //conditional copy
-    Mem[ 5'b01011] = {4'b1011, 4'b1001, 4'b0, 4'b0, 4'b0};//copy do $s2 para $s5
+    //Mem[ 5'b01011] = {4'b1011, 4'b1001, 4'b0, 4'b0, 4'b0};//copy do $s2 para $s5
     // //or
     // Mem[ 5'b01000] = {4'b0001, 4'b1110, 4'b0001, 4'b0010, 4'b0}; //Or para $s14 de $s1,$s2
 
@@ -34,9 +34,9 @@ module memory_main (mem_addr, addr, data, wr_en, Clock, q, q_mem);
     // Mem[ 5'b00101] = {4'b0011, 4'b0001, 12'b0};
 
     // Mem[ 5'b00110] = {4'b0, 4'b0101, 4'b0, 4'b0001, 4'b0};
-    Mem[ 5'b11100] = {13'b0, 7'b1000000};
-    Mem[ 5'b11101] = {18'b0, 2'b01}; //Dado de entrada
-    Mem[ 5'b11110] = {17'b0, 3'b100}; //Dado de entrada
+    Mem[ 5'b11100] = {15'b0, 5'b11100};
+    Mem[ 5'b11101] = {15'b0, 5'b11011}; //Dado de entrada
+    Mem[ 5'b11110] = {17'b0, 5'b11011}; //Dado de entrada
     Mem[ 5'b11111] = {17'b0, 3'b101}; //Dado de entrada
 
   end
