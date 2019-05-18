@@ -37,6 +37,7 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     wire [3:0] WB_Address_Out;
     wire [19:0] WB_Data_Out;
 
+    wire [3:0] IF_ID_opA, IF_ID_opB, ID_EX_opDestino,  EX_MEM_opDestino;
     wire stall;
 
 
