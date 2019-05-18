@@ -67,11 +67,14 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     //==================================================
 
     //module register_IF_ID(clock,reset,instruction,instructionPropagation);
-    register_IF_ID IF_ID(Clock, Reset, DataIn, IF_ID_Instruction_Out); 
+    register_IF_ID IF_ID(Clock, Reset, DataIn, IF_ID_Instruction_Out, IF_ID_opA, IF_ID_opB); 
+
     //module register_ID_EX(clock,reset,instruction,read_data1,read_data2,dataRFOut1,dataRFOut2,instructionPropagation);
-    register_ID_EX ID_EX(Clock,Reset,ID_Instruction_Out,dataRFOut1,dataRFOut2,ID_EX_dataRFOut1,ID_EX_dataRFOut2,ID_EX_Instruction_Out);
+    register_ID_EX ID_EX(Clock,Reset,ID_Instruction_Out,dataRFOut1,dataRFOut2,ID_EX_dataRFOut1,ID_EX_dataRFOut2,ID_EX_Instruction_Out, ID_EX_opDestino);
+    
     //module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,aluRESULT,aluZEROout,aluRESULTout,dataRFOut1_Out,dataRFOut2_Out,instructionPropagation);
     register_EX_MEM EX_MEM(Clock, Reset, EX_Instruction_Out, EX_dataRFOut1, EX_dataRFOut2, EX_AluZero_Out, EX_Alu_Out, EX_MEM_AluZero_Out, EX_MEM_AluResult_Out, EX_MEM_dataRFOut1_Out, EX_MEM_dataRFOut2_Out, EX_MEM_Instruction_Out);
+
     //module register_MEM_WB(clock,reset,instruction,dataRFOut1,dataRFOut2,aluRESULT,memory_read_data,aluRESULTout,memory_read_data_out,dataRFOut1_Out,dataRFOut2_Out,instructionPropagation);
     register_MEM_WB MEM_WB(Clock, Reset, MEM_Instruction_Out, EX_MEM_dataRFOut1_Out, EX_MEM_dataRFOut2_Out, EX_MEM_AluResult_Out, DataIn_Mem, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out, MEM_WB_dataRFOut1_Out, MEM_WB_dataRFOut2_Out, MEM_WB_Instruction_Out);
 
@@ -79,23 +82,9 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     //                  Controladores
     //==================================================
 
-    //==================================================
-    //                    ATENÇÃO!
-    //==================================================
-
-    /*
-        Por enquanto, há um consenso entre os devs deste projeto de que esse módulo não possui nenhuma responsabilidade. Por isso, está temporariamente sem atribuições.
-    */
-
-    //instructionDecode_Control ID_Control(); Não será necessário
-
     instructionExecute_Control EX_Control(ID_EX_Instruction_Out, ALU_Control);
 
-    memoryAccess_Control MEM_Control(EX_MEM_Instruction_Out, MEM_WriteEnable_Control, MEM_Address_Control);
-
-    //writeBack_Control WB_Control();
-
-    
+    memoryAccess_Control MEM_Control(EX_MEM_Instruction_Out, MEM_WriteEnable_Control, MEM_Address_Control);    
 
     //==================================================
     //                  Banco de Registradores
@@ -104,60 +93,3 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     registerFile rf(Clock, ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out, WB_Address_Out, WB_Data_Out, WB_WriteEnable_Out, dataRFOut1, dataRFOut2);
 
 endmodule
-
-//==================================================
-    //                    Testbench
-    //==================================================
-
-/*
-module pipelineProcessor_testbench;
-    reg [19:0] DataIn;
-    reg Reset, Clock;
-    wire [19:0] Dout, Daddress;
-
-    wire W;
-
-    wire [3:0] WB_AddressReg;
-    wire [15:0] DataOutMux;
-    
-    wire jumpEnable; 
-    wire [19:0] IF_ID_Data_Out;
-    wire [19:0] IF_ID_Instruction_Out;
-
-    wire [3:0] ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out;
-    wire [3:0] ID_EX_Instruction_Out;
-
-    wire [1:0] ALU_Control; 
-
-    wire [19:0] EX_dataRFOut1, EX_dataRFOut2; 
-    wire [19:0] EX_Alu_Out;
-    wire [19:0] MEM_MemoryRead_Out, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out;
-
-   parameter timeDelay = 200;
-
-	 pipelineProcessor  pipelineProcessor_TestBench (DataIn, Reset, Clock, Dout, Daddress, W);
-
-	 initial begin //RESETING EVERYTHING
-	   DataIn = 0;
-		  Clock = 0; Reset = 1;
-      forever begin
-		    #50 Clock = ~Clock;
-		  end
-	  end 
-
-	initial begin
-        //STORE DO DADO DO REGISTRADOR 0000(inicializado na memoria) PARA O REGISTRADOR 1111
-        #(timeDelay) DataIn = 20'b11001111000000000000; //Saídas esperadas: Dout = ; Daddress = ; W = ;
-
-        //ADD DO DADO DO REGISTRADOR 0000 E O REGISTRADOR 1111, SALVO EM REGISTRADOR 0001
-        #(timeDelay) DataIn = 20'b00000001111100000000; //Saídas esperadas: Dout = ; Daddress = ; W = ; 
-
-        //NOT DO DADO DO REGISTRADOR 0001, SALVO EM REGISTRADOR 0010
-        #(timeDelay) DataIn = 20'b00110001111100000000; //Saídas esperadas: Dout = ; Daddress = ; W = ;
-
-         //LOAD DO ENDEREÇO NO REGISTRADOR 0000 SALVO EM REGISTRADOR 0011
-            //(LEMBRAR DE DEFINIR O ENDEREÇO NO REGISTRADOR 0000 E DEFINIR O DADO NO REGISTRADOR NO ENDEREÇO GUARADO POR 0000)
-        #(timeDelay) DataIn = 20'b1011 0011 0000 00000000; //Saídas esperadas: Dout = ; Daddress = ; W = ;
-    end 
-endmodule
-*/
