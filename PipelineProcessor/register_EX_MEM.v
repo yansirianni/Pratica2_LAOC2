@@ -1,4 +1,4 @@
-module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,aluRESULT,aluZEROout,aluRESULTout,dataRFOut1_Out,dataRFOut2_Out,instructionPropagation);
+module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,aluRESULT,aluZEROout,aluRESULTout,dataRFOut1_Out,dataRFOut2_Out,instructionPropagation, opDestino);
 
   	input clock, reset;
   	input [19:0] instruction, dataRFOut1, dataRFOut2;
@@ -12,6 +12,7 @@ module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,alu
 	output reg aluZEROout;
 	output reg [19:0] aluRESULTout, dataRFOut1_Out, dataRFOut2_Out;
 	output reg [19:0] instructionPropagation;
+	output reg [3:0]  opDestino;
 
 
 	always @(posedge clock) begin
@@ -25,6 +26,7 @@ module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,alu
 			instructionPropagation <= instruction;
 			dataRFOut1_Out <= dataRFOut1;
 			dataRFOut2_Out <= dataRFOut2;
+			opDestino <= instruction[15:12];
 		end
 	end
 
