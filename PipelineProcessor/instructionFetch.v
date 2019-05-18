@@ -23,11 +23,13 @@ module PC_reg19 (stall, R, L, incr_pc, Clock, Q);
 	if (L)
 		Q <= R;
 	else
+	begin
 		if (stall)
 			Q <= Q;
 
 		if (incr_pc)
 			Q <= Q + 1'b1;
+	end
 endmodule
 
 /*
