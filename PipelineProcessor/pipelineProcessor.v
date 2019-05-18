@@ -37,6 +37,8 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     wire [3:0] WB_Address_Out;
     wire [19:0] WB_Data_Out;
 
+    wire stall;
+
 
     //==================================================
     //                    Estágios
@@ -66,14 +68,14 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     //            Registradores de Pipeline
     //==================================================
 
-    //module register_IF_ID(clock,reset,instruction,instructionPropagation);
+    //module register_IF_ID(clock,reset,instruction,instructionPropagation, opA, opB);
     register_IF_ID IF_ID(Clock, Reset, DataIn, IF_ID_Instruction_Out, IF_ID_opA, IF_ID_opB); 
 
-    //module register_ID_EX(clock,reset,instruction,read_data1,read_data2,dataRFOut1,dataRFOut2,instructionPropagation);
+    //module register_ID_EX(clock,reset,instruction,read_data1,read_data2,dataRFOut1,dataRFOut2,instructionPropagation,opDestino);
     register_ID_EX ID_EX(Clock,Reset,ID_Instruction_Out,dataRFOut1,dataRFOut2,ID_EX_dataRFOut1,ID_EX_dataRFOut2,ID_EX_Instruction_Out, ID_EX_opDestino);
     
-    //module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,aluRESULT,aluZEROout,aluRESULTout,dataRFOut1_Out,dataRFOut2_Out,instructionPropagation);
-    register_EX_MEM EX_MEM(Clock, Reset, EX_Instruction_Out, EX_dataRFOut1, EX_dataRFOut2, EX_AluZero_Out, EX_Alu_Out, EX_MEM_AluZero_Out, EX_MEM_AluResult_Out, EX_MEM_dataRFOut1_Out, EX_MEM_dataRFOut2_Out, EX_MEM_Instruction_Out);
+    //module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,aluRESULT,aluZEROout,aluRESULTout,dataRFOut1_Out,dataRFOut2_Out,instructionPropagation, opDestino);
+    register_EX_MEM EX_MEM(Clock, Reset, EX_Instruction_Out, EX_dataRFOut1, EX_dataRFOut2, EX_AluZero_Out, EX_Alu_Out, EX_MEM_AluZero_Out, EX_MEM_AluResult_Out, EX_MEM_dataRFOut1_Out, EX_MEM_dataRFOut2_Out, EX_MEM_Instruction_Out, EX_MEM_opDestino);
 
     //module register_MEM_WB(clock,reset,instruction,dataRFOut1,dataRFOut2,aluRESULT,memory_read_data,aluRESULTout,memory_read_data_out,dataRFOut1_Out,dataRFOut2_Out,instructionPropagation);
     register_MEM_WB MEM_WB(Clock, Reset, MEM_Instruction_Out, EX_MEM_dataRFOut1_Out, EX_MEM_dataRFOut2_Out, EX_MEM_AluResult_Out, DataIn_Mem, MEM_WB_AluResult_Out, MEM_WB_MemoryRead_Out, MEM_WB_dataRFOut1_Out, MEM_WB_dataRFOut2_Out, MEM_WB_Instruction_Out);
@@ -91,5 +93,11 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     //==================================================
     //module registerFile (clock,RegReadAddress1,RegReadAddress2,RegWriteAdress,WriteData,WriteEnable,DataOut1,DataOut2);
     registerFile rf(Clock, ID_ReadAddressRF1_Out, ID_ReadAddressRF2_Out, WB_Address_Out, WB_Data_Out, WB_WriteEnable_Out, dataRFOut1, dataRFOut2);
+
+    //==================================================
+    //               Detector de Hazard
+    //==================================================
+
+     HazardDetection hazard(Reset, IF_ID_opA, IF_ID_opB, ID_EX_opDestino, EX_MEM_opDestino, stall);
 
 endmodule
