@@ -47,7 +47,7 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
 
     //Estágio 1
     //module instructionFetch(clock,reset,jumpAddress,jumpEnable,Daddress);
-    instructionFetch IF(Clock, Reset, JumpAddress, JumpEnable, Daddress); //Carrega instruções da memória 
+    instructionFetch IF(stall, Clock, Reset, JumpAddress, JumpEnable, Daddress); //Carrega instruções da memória 
 
     //Estágio 2
     //module instructionDecode(instruction,ReadAddressRF1,ReadAddressRF2,instructionPropagation);
