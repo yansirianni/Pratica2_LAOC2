@@ -18,8 +18,7 @@ module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,alu
 	always @(posedge clock) begin
 		if (reset) begin
 			aluZEROout <= 1'b0;
-			aluRESULTout <= 20'b0;
-			//instructionPropagation <= 20'b0;
+			aluRESULTout <= 20'b0;			
 		end else begin
 			aluZEROout <= aluZERO;
 			aluRESULTout <= aluRESULT;

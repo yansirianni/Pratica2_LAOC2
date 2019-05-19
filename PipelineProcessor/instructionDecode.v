@@ -11,31 +11,3 @@ module instructionDecode(instruction,ReadAddressRF1,ReadAddressRF2,instructionPr
    
    assign instructionPropagation = instruction;
 endmodule
-
-//==================================================
-    //                    Testbench
-    //==================================================
-
-/*
-module instructionDecode_testbench;
-  reg [19:0] instruction;
-  wire [3:0] ReadAddressRF1;
-  wire [3:0] ReadAddressRF2;
-  wire [19:0] instructionPropagation;
-   parameter timeDelay = 100;
-	 instructionDecode instructionDecode_test(instruction,clock,reset,ReadAddressRF1,ReadAddressRF2,instructionPropagation);
-	 initial begin //RESETING EVERYTHING
-	   instruction = 0;
-		  clock = 0; reset = 0;
-      forever begin
-		    #50 clock = ~clock;
-		  end
-	  end 
-	initial begin
-  //STORE DO DADO DO REGISTRADOR 1111 E PARA O REGISTRADOR 0000
-  #(timeDelay) instruction = 20'b11000000111100000000; //Saídas esperadas: ReadAddressRF1 = 0000 ; ReadAddressRF2 = 1111
-  //COPY ... WHATEVER...
-  #(timeDelay) instruction = 20'b11100000111100000000; //Saídas esperadas: ReadAddressRF1 = 1111 ; ReadAddressRF2 = 0000
-	end 
-endmodule
-*/

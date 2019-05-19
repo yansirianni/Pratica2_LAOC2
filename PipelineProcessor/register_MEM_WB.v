@@ -10,8 +10,7 @@ module register_MEM_WB(clock,reset,instruction,dataRFOut1,dataRFOut2,aluRESULT,m
 	always @(posedge clock) begin
 		if (reset) begin
 			aluRESULTout <= 20'b0;
-			memory_read_data_out <= 20'b0;
-			//instructionPropagation <= 20'b0;
+			memory_read_data_out <= 20'b0;			
 		end else begin
 			aluRESULTout <= aluRESULT;
 			memory_read_data_out <= memory_read_data;
