@@ -37,8 +37,8 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     wire [3:0] WB_Address_Out;
     wire [19:0] WB_Data_Out;
 
-    wire [3:0] IF_ID_opA, IF_ID_opB, ID_EX_opDestino,  EX_MEM_opDestino;
-    wire stall;
+    wire [3:0] IF_ID_opA, IF_ID_opB, ID_EX_op1, ID_EX_op2, ID_EX_opDestino,  EX_MEM_opDestino;
+    wire stall, IF_ID_Hold;
 
 
     //==================================================
@@ -70,10 +70,10 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     //==================================================
 
     //module register_IF_ID(clock,reset,instruction,instructionPropagation, opA, opB);
-    register_IF_ID IF_ID(Clock, Reset, DataIn, IF_ID_Instruction_Out, IF_ID_opA, IF_ID_opB); 
+    register_IF_ID IF_ID(IF_ID_Hold, Clock, Reset, DataIn, IF_ID_Instruction_Out, IF_ID_opA, IF_ID_opB); 
 
     //module register_ID_EX(clock,reset,instruction,read_data1,read_data2,dataRFOut1,dataRFOut2,instructionPropagation,opDestino);
-    register_ID_EX ID_EX(Clock,Reset,ID_Instruction_Out,dataRFOut1,dataRFOut2,ID_EX_dataRFOut1,ID_EX_dataRFOut2,ID_EX_Instruction_Out, ID_EX_opDestino);
+    register_ID_EX ID_EX(Clock,Reset,ID_Instruction_Out,dataRFOut1,dataRFOut2,ID_EX_dataRFOut1,ID_EX_dataRFOut2, ID_EX_Instruction_Out, ID_EX_op1, ID_EX_op2, ID_EX_opDestino);
     
     //module register_EX_MEM(clock,reset,instruction,dataRFOut1,dataRFOut2,aluZERO,aluRESULT,aluZEROout,aluRESULTout,dataRFOut1_Out,dataRFOut2_Out,instructionPropagation, opDestino);
     register_EX_MEM EX_MEM(Clock, Reset, EX_Instruction_Out, EX_dataRFOut1, EX_dataRFOut2, EX_AluZero_Out, EX_Alu_Out, EX_MEM_AluZero_Out, EX_MEM_AluResult_Out, EX_MEM_dataRFOut1_Out, EX_MEM_dataRFOut2_Out, EX_MEM_Instruction_Out, EX_MEM_opDestino);
@@ -99,6 +99,6 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     //               Detector de Hazard
     //==================================================
 
-     HazardDetection hazard(Reset, IF_ID_Instruction_Out[19:16], IF_ID_opA, IF_ID_opB, ID_EX_opDestino, EX_MEM_opDestino, stall);
+     HazardDetection hazard(Reset, IF_ID_Instruction_Out[19:16], ID_EX_Instruction_Out[19:16], IF_ID_opA, IF_ID_opB, ID_EX_op1, ID_EX_op2, ID_EX_opDestino, EX_MEM_opDestino, stall, IF_ID_Hold);
 
 endmodule

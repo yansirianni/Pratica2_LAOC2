@@ -1,6 +1,6 @@
-module register_IF_ID(clock,reset,instruction,instructionPropagation, opA, opB);
+module register_IF_ID(IF_ID_Hold, clock,reset,instruction,instructionPropagation, opA, opB);
 
-  	input clock, reset;
+  	input IF_ID_Hold, clock, reset;
 	input [19:0] instruction;
 	
 	output reg [19:0] instructionPropagation;
@@ -11,9 +11,21 @@ module register_IF_ID(clock,reset,instruction,instructionPropagation, opA, opB);
 		if (reset) begin
 			//instructionPropagation <= 20'b0;
 		end else begin
-			instructionPropagation <= instruction;
-			opA <= instruction[11:8];
-			opB <= instruction[7:4];
+
+			if(IF_ID_Hold)
+			begin
+				instructionPropagation <= instructionPropagation;
+				opA <= opA;
+				opB <= opB;
+			end
+				
+			else
+			begin
+				instructionPropagation <= instruction;
+				opA <= instruction[11:8];
+				opB <= instruction[7:4];
+			end
+			
 		end
 	end
 endmodule
