@@ -8,9 +8,11 @@ module HazardDetection(
 
 wire ex_hazard;
 
+assign ld_hazard = (IF_ID_opcode == 4'b1101) ? 1'b1 : 1'b0; 
+
 assign ex_hazard = ((IF_ID_opcode == 4'b0000) || (IF_ID_opcode == 4'b0001) || (IF_ID_opcode == 4'b000) || (IF_ID_opcode == 4'b0011)) ? 1'b1 : 1'b0; 
 
-assign hasHazard = ex_hazard && (((ID_EX_dest == IF_ID_op1) || (ID_EX_dest == IF_ID_op2)) || ((EX_MEM_dest == IF_ID_op1) || (EX_MEM_dest == IF_ID_op2)));
+assign hasHazard = (ld_hazard || ex_hazard) && (((ID_EX_dest == IF_ID_op1) || (ID_EX_dest == IF_ID_op2)) || ((EX_MEM_dest == IF_ID_op1) || (EX_MEM_dest == IF_ID_op2)));
 
 assign IF_ID_Hold = hasHazard ? 1'b1 : 1'b0;
 
