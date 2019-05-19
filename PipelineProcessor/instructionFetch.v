@@ -22,14 +22,12 @@ module PC_reg19 (stall, R, L, incr_pc, Clock, Q);
 	always @(posedge Clock)
 	if (L)
 		Q <= R;
-	else
-	begin
+	else	
 		if (stall)
 			Q <= Q;
 
-		if (incr_pc)
-			Q <= Q + 1'b1;
-	end
+		else if (incr_pc)
+			Q <= Q + 1'b1;	
 endmodule
 
 /*

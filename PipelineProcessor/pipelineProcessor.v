@@ -99,6 +99,6 @@ module pipelineProcessor (DataIn, DataIn_Mem, Reset, Clock, MEM_WriteData_Out, M
     //               Detector de Hazard
     //==================================================
 
-     HazardDetection hazard(Reset, IF_ID_opA, IF_ID_opB, ID_EX_opDestino, EX_MEM_opDestino, stall);
+     HazardDetection hazard(Reset, IF_ID_Instruction_Out[19:16], IF_ID_opA, IF_ID_opB, ID_EX_opDestino, EX_MEM_opDestino, stall);
 
 endmodule
